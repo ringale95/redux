@@ -1,4 +1,4 @@
-import { compose,pipe } from "lodash/fp";
+import { pipe } from "lodash/fp";
 
 const { wrap } = require("lodash");
 
@@ -9,19 +9,21 @@ let input = "  Javascript  ";
 //convert to lowerCase
 
 const trim = str => str.trim();
-const wrapInDiv = `<div>${str}</div>`
-const lowerCase = str.toLowerCase();
+// const wrapInDiv = `<div>${str}</div>`;
+// const wrapInSpan = `<span>${str}</span>`;
 
-//const result = wrapInDiv(lowerCase(trim(input)));
-//Instead of doing above nested calls we will directly call compost function from lodash
+//Now above wrapInDiv and wrapInSpan are two different function with similar behavior so
+//we will instead define a common funciton
 
-//const transform = compose(wrapInDiv, lowerCase, trim);
-//compose is higher order function which takes different function and return the composition for all function
-//so we need not to do wrapInDiv and all () things
+const wrap = type => str => `<${type}>${str}</${type}>`;
+const lowerCase = str => str.toLowerCase();
 
-transform(input);
+
 //but again a problem that we need to still read it from right-left. To solve the problem we will use pipe
 
 //in pipe we will write in order we want to accomplish that
 
-const transform = pipe(trim, lowerCase, wrapInDiv);
+const transform = pipe(trim, lowerCase, wrap("div")); //here div is passed as a function and not a string
+
+
+console.log(transform(input));
