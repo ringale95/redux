@@ -1,29 +1,34 @@
-import { pipe } from "lodash/fp";
+//below is not a pure function
+function myfunc(number){
+    return number * Math.random();  //this random method generatesa  new value everytime
+}
 
-const { wrap } = require("lodash");
+//below is pure function
+function myfunc(number){
+    return number * w2; //this is pure because everytime we call it gives as 2 if number =1
+}
 
-let input = "  Javascript  ";
+//In pure functions we cant use below:
+// no random values
+//no date and time
+//we cant read or change - no global state(dom element, files, db etc)
+//no mutation of parameters
 
-//trim
-//wrap in div
-//convert to lowerCase
+//In redux only reducers have to be pure other functions can be pure or impure
 
-const trim = str => str.trim();
-// const wrapInDiv = `<div>${str}</div>`;
-// const wrapInSpan = `<span>${str}</span>`;
+//below function is impure because minAge can change anytime so result will always be different
+function isEligible(age){
+    return age > minAge;
+}
 
-//Now above wrapInDiv and wrapInSpan are two different function with similar behavior so
-//we will instead define a common funciton
+//to make above function as pure we will pass in parameter
+function isEligible(age, minAge){
+    return age > minAge;
+    
+}
 
-const wrap = type => str => `<${type}>${str}</${type}>`;
-const lowerCase = str => str.toLowerCase();
-
-
-//but again a problem that we need to still read it from right-left. To solve the problem we will use pipe
-
-//in pipe we will write in order we want to accomplish that
-
-const transform = pipe(trim, lowerCase, wrap("div")); //here div is passed as a function and not a string
-
-
-console.log(transform(input));
+//benefits:
+//self-documenting -> as everthing a func needs is visible in parameters
+//easily testable
+//concurrent
+//cacheable -> suppose any pure func return same output we can store in cache 
