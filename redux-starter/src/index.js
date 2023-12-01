@@ -1,34 +1,52 @@
-//below is not a pure function
-function myfunc(number){
-    return number * Math.random();  //this random method generatesa  new value everytime
-}
+// strings cannot be mutated
+let n = "Raveena";
+let newName = n.toUpperCase(); //here this creates a copy of n and then update doesnt update on same
 
-//below is pure function
-function myfunc(number){
-    return number * w2; //this is pure because everytime we call it gives as 2 if number =1
-}
+//but in objects we can update to same object
+let book = {};
+book.title = "..."
 
-//In pure functions we cant use below:
-// no random values
-//no date and time
-//we cant read or change - no global state(dom element, files, db etc)
-//no mutation of parameters
+//but when we use const - we are not creating an immutable object
+const book = {};
+book.title = ".."; 
+//cant reassign book again
 
-//In redux only reducers have to be pure other functions can be pure or impure
 
-//below function is impure because minAge can change anytime so result will always be different
-function isEligible(age){
-    return age > minAge;
-}
+//Benefits of immutability:
+//1. Predictable - > if u call a func and pass an object and we know that object is not gonna change 
+//2. Faster to detect changes. React needs to know if thers changes happening so as to re-render
+//3. concurrency
 
-//to make above function as pure we will pass in parameter
-function isEligible(age, minAge){
-    return age > minAge;
-    
-}
+//cons
+//1. performance -> all the values copied to new object
+//2. cause memory overhead -> efers to the additional memory resources consumed by a program or system beyond what is strictly required for its essential functionality
 
-//benefits:
-//self-documenting -> as everthing a func needs is visible in parameters
-//easily testable
-//concurrent
-//cacheable -> suppose any pure func return same output we can store in cache 
+//Structural sharing: 
+
+const person =  { name : "John", 
+                address : {
+                    country: "USA",
+                    city: "San Francisco"
+                }
+                };
+//to update the object we cant do : person.name and update
+//instead take a copy and update 2 ways : Object.assign({}, person. { name : "Bob", age: 30})//copies person object to empty obj
+const updated =  Object.assign( {}, person, {name: "Bob", age: "30"});
+console.log(updated);
+
+//2nd way is : or update using spread operator
+const update = {...person, name: "Bob"} //here name is updated . more concise
+//this is shallow copy -> Shallow copy will create new object or array but will reference the original nested object or array
+//Deep copy -> This will create new object or array alongwith new copies of nested objects or arrays. Changes made to nested
+//object will not affect the original copy nested objects
+
+//deep copy
+const deepUpdate = {
+    ...person, address:{
+        ...person.address, 
+        city: "New York"
+    } name: "Bob"
+};
+console.log(person);
+
+//In above deep copy the address of original person object is not modified 
