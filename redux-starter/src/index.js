@@ -3,8 +3,8 @@ let n = "Raveena";
 let newName = n.toUpperCase(); //here this creates a copy of n and then update doesnt update on same
 
 //but in objects we can update to same object
-let book = {};
-book.title = "..."
+// let book = {};
+// book.title = "..."
 
 //but when we use const - we are not creating an immutable object
 const book = {};
@@ -29,6 +29,8 @@ const person =  { name : "John",
                     city: "San Francisco"
                 }
                 };
+person.name = "Raveena";
+console.log("Here "+person);
 //to update the object we cant do : person.name and update
 //instead take a copy and update 2 ways : Object.assign({}, person. { name : "Bob", age: 30})//copies person object to empty obj
 const updated =  Object.assign( {}, person, {name: "Bob", age: "30"});
@@ -45,7 +47,7 @@ const deepUpdate = {
     ...person, address:{
         ...person.address, 
         city: "New York"
-    } name: "Bob"
+    }, name: "Bob"
 };
 console.log(person);
 
