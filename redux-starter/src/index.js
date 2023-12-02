@@ -1,3 +1,4 @@
+import { bugsRequested } from "./store/bugs";
 import configureStore from "./store/configureStore";
 import { apiCallBegan } from "./store/middleware/api";
 
@@ -27,7 +28,9 @@ store.dispatch(apiCallBegan({
     url : '/bugs',
     method: "get",
     data: {},
-    onSuccess : "bugsReceived",
+    onStart: "bugs/bugsRequested",
+    onSuccess : "bugs/bugsReceived",
     onError: "apiRequestFailed"
+    
 }));
 
