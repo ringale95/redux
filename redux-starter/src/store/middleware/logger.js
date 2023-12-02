@@ -1,5 +1,5 @@
 //SNA
-const logger = store => next => action => {
+const logger = param => store => next => action => {
 
     //log every action dispatched
     //action: action dispatched
@@ -8,9 +8,8 @@ const logger = store => next => action => {
     //Currying -> N => 1
     //replace comma with =>
 
-    console.log("store", store);
-    console.log("next", next);
-    console.log("action", action);
+    console.log("Logging", param); //logging middleware
+  
     next(action); // to call the next action
   
 };
