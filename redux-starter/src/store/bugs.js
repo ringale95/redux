@@ -1,62 +1,40 @@
-//action types
-const BUG_ADDED = "bugAdded";
-const BUG_REMOVE = "bugRemoved";
-const BUG_RESOLVED = "bugResolved";
+import { createAction, createReducer } from '@reduxjs/toolkit';
 
-//Action creator:
+// Action types - no need to define
 
-export function bugAdded(description){
-    return {
-        type: BUG_ADDED,
-        payload:{
-        description
-        }
-    };
-}
+// Below are action creators
+export const bugAdded = createAction("bugAdded");
+export const bugResolved = createAction("bugResolved");
+export const bugRemoved = createAction("bugRemoved");
 
-export function bugRemoved(id){
-return {
-    type: BUG_REMOVE,
-    payload: {
-        id:1
-    }
-};
-}
-
-export const bugResolved = id => ({
-    type: actions.BUG_RESOLVED,
-    payload:{
-        id
-    }
-})
-
-//reducer
+// Reducer
 
 let lastId = 0;
 
-//reducer: pure functions
-export default function reducer (state = [], action){
+// createReducer will have initial state which is [] and action
+export default createReducer([], {
+  // Key : Value
+  // Actions: functions that handle the actions like bugAdded = key
+  [bugAdded.type]: (bugs, action) => {
+    bugs.push({
+      id: ++lastId,
+      description: action.payload.description,
+      resolved: false,
+    });
+  },
 
-    switch(action.type){
-        case BUG_ADDED:
-            return [
-                ...state,
-                {   
-                    id: ++lastId,
-                    description: action.payload.description,
-                    resolved:false
-                }];
-        case BUG_REMOVE:
-        //we want to return all bugs except the removed bug
-            return state.filter(bug => bug.id !== action.payload.id)    
-        case BUG_RESOLVED:
-            //if bug is resolved then we change the resolve to true
-            return state.map(bug => bug.id !== action.payload.id ? bug : {...bug, resolved:true})        
-        default:
-            return state; //here state is empty array 
-    }
-       
-}
+  [bugResolved.type]: (bugs, action) => {
+    // Find bug in array with id and replace resolved with true
+    const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+    bugs[index].resolved = true;
+  }
+//   },
 
-
-
+//   [bugRemoved.type]: (bugs, action) => {
+//     const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+//     if (index !== -1) {
+//       // Use splice to remove the bug from the array
+//       bugs.splice(index, 1);
+//     }
+//   },
+});
