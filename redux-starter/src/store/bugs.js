@@ -1,10 +1,11 @@
 import {createSlice } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 let lastId = 0;
 
 const slice = createSlice({
-    name: 'bugs', //name of state
+    name: 'bugs', //name of slice
     initialState: [],
-    reducer:{
+    reducers:{
         //actions to action handler
         bugAdded:(bugs, action) =>{
             bugs.push({
@@ -20,9 +21,22 @@ const slice = createSlice({
         }
     }
 });
+
 // Action types - no need to define
 export const { bugAdded, bugResolved }  = slice.actions;
-export default createSlice.reducer;
+export default slice.reducer;
+
+//selectors
+
+//export const getUnresolvedBugs = state => state.entities.bugs.filter(bug => !bug.resolved);
+
+//Memoization
+
+export const getUnresolvedBugs = createSelector(
+    state => state.entities.bugs,
+    bugs => bugs.filter(bug => !bug.resolved) //here if list of bugs is not changed the computation logic is not executed again
+)
+
  
 
 
