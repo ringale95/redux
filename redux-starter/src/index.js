@@ -1,5 +1,5 @@
 import configureStore from "./store/configureStore";
-import * as actions from './store/bugs';  // Import specific actions
+import * as actions from './store/bugs'; 
 
 const store = configureStore();
 
