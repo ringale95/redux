@@ -1,7 +1,8 @@
 import { bugsRequested } from "./store/bugs";
 import configureStore from "./store/configureStore";
 import { apiCallBegan } from "./store/middleware/api";
-
+import { loadBugs } from "./store/bugs";
+import { addBug } from "./store/bugs";
 
 const store = configureStore();
 
@@ -24,13 +25,7 @@ const action = (dispatch)=>{
 };
 
 //action is plain object with type property
-store.dispatch(apiCallBegan({
-    url : '/bugs',
-    method: "get",
-    data: {},
-    onStart: "bugs/bugsRequested",
-    onSuccess : "bugs/bugsReceived",
-    onError: "apiRequestFailed"
-    
-}));
+store.dispatch(addBug({ description: "a"}));
+store.dispatch(loadBugs());
+
 
